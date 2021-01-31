@@ -10,14 +10,19 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:codecat.translateDocument"
+		"onCustomEditor:codecat.translateDocument"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
-		"commands": [
+		"customEditors": [
 			{
-				"command": "codecat.translateDocument",
-				"title": "Translate Current Document"
+				"viewType": "codecat.translateDocument",
+				"displayName": "Translate Current Document",
+				"selector": [
+					{
+						"filenamePattern": "*.xcat"
+					}
+				]
 			}
 		]
 	},
