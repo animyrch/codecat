@@ -2,6 +2,7 @@
 
 // Script run within the webview itself.
 (function () {
+	console.log('starts script');
 
 	// Get a reference to the VS Code webview api.
 	// We use this API to post messages back to our extension.
@@ -10,11 +11,23 @@
 	const vscode = acquireVsCodeApi();
 
 	const editorContainer = /** @type {HTMLElement} */ (document.querySelector('.editor-body'));
+
+	
+	const translationBox = document.getElementById('current-translation-segment');
+	console.log('before addevent');
+	translationBox.addEventListener('submit', (e) => {
+		e.preventDefault();
+		const enteredText = document.getElementsByTagName('input');
+		vscode.postMessage({ type: 'update', value: enteredText[0].value });
+		console.log('posted update');
+	});
+
 	/**
 	 * Render the document in the webview.
 	 */
 	function updateContent(/** @type {string} */ text) {
-            editorContainer.innerText = text;
+			editorContainer.innerText = text;
+			
 	}
 
 	// Handle messages sent from the extension to the webview
@@ -22,6 +35,7 @@
 		const message = event.data; // The json data that the extension sent
 		switch (message.type) {
 			case 'update':
+				console.log('before update');
 				const text = message.text;
 
 				// Update our webview's content

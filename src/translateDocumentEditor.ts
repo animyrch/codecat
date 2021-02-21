@@ -70,6 +70,14 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 			changeDocumentSubscription.dispose();
 		});
 
+		webviewPanel.webview.onDidReceiveMessage(e => {
+			switch (e.type) {
+				case 'update':
+					this.updateTextDocument(document, e.value);
+					return;
+			}
+		});
+
 		updateWebview();
 	}
 
@@ -77,11 +85,11 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 	 * Get the static html used for the editor webviews.
 	 */
 	private getHtmlForWebview(webview: vscode.Webview): string {
-		
 		// Local path to script and css for the webview
 		const scriptUri = webview.asWebviewUri(vscode.Uri.file(
 			path.join(this.context.extensionPath, 'media', 'translateDocument.js')
 		));
+		console.log(scriptUri);
 
 		// Use a nonce to whitelist which scripts can be run
 		const nonce = getNonce();
@@ -103,6 +111,9 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 				<title>Translate Document</title>
 			</head>
 			<body>
+				<form id="current-translation-segment">
+					<input type="text" placeholder="enter">
+				</form>
 				<div class="editor-body">
 				</div>
 				
@@ -110,5 +121,21 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
 			</html>`;
+	}
+
+	/**
+	 * Write out the json to a given document.
+	 */
+	private updateTextDocument(document: vscode.TextDocument, json: any) {
+		const edit = new vscode.WorkspaceEdit();
+
+		// Just replace the entire document every time for this example extension.
+		// A more complete extension should compute minimal edits instead.
+		edit.replace(
+			document.uri,
+			new vscode.Range(0, 0, document.lineCount, 0),
+			JSON.stringify(json, null, 2));
+
+		return vscode.workspace.applyEdit(edit);
 	}
 }
