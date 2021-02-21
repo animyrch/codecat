@@ -89,7 +89,6 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 		const scriptUri = webview.asWebviewUri(vscode.Uri.file(
 			path.join(this.context.extensionPath, 'media', 'translateDocument.js')
 		));
-		console.log(scriptUri);
 
 		// Use a nonce to whitelist which scripts can be run
 		const nonce = getNonce();
@@ -111,10 +110,15 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 				<title>Translate Document</title>
 			</head>
 			<body>
-				<form id="current-translation-segment">
-					<input type="text" placeholder="enter">
-				</form>
 				<div class="editor-body">
+					<div id="editor-body-translated"></div>
+
+					<form id="current-translation-segment">
+						<div id="editor-body-translation"></div>
+						<input type="submit" value="Translate">
+					</form>
+
+					<div id="editor-body-remaining"></div>
 				</div>
 				
 				
@@ -134,7 +138,7 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 		edit.replace(
 			document.uri,
 			new vscode.Range(0, 0, document.lineCount, 0),
-			JSON.stringify(json, null, 2));
+			json);
 
 		return vscode.workspace.applyEdit(edit);
 	}
