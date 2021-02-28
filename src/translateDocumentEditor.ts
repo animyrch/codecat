@@ -73,7 +73,8 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 		webviewPanel.webview.onDidReceiveMessage(e => {
 			switch (e.type) {
 				case 'update':
-					this.updateTextDocument(document, e.value);
+					const newText = (e.translated ? e.translated + '\n' : '') + e.translation +  '\n' + e.remaining;
+					this.updateTextDocument(document, newText);
 					return;
 			}
 		});
@@ -110,6 +111,7 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 				<title>Translate Document</title>
 			</head>
 			<body>
+				<div id="editor-translation-index">0</div>
 				<div class="editor-body">
 					<div id="editor-body-translated"></div>
 
@@ -128,9 +130,9 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 	}
 
 	/**
-	 * Write out the json to a given document.
+	 * Write out the translation to a given document.
 	 */
-	private updateTextDocument(document: vscode.TextDocument, json: any) {
+	private updateTextDocument(document: vscode.TextDocument, translation: any) {
 		const edit = new vscode.WorkspaceEdit();
 
 		// Just replace the entire document every time for this example extension.
@@ -138,8 +140,9 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 		edit.replace(
 			document.uri,
 			new vscode.Range(0, 0, document.lineCount, 0),
-			json);
+			translation);
 
 		return vscode.workspace.applyEdit(edit);
 	}
+
 }

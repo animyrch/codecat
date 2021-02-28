@@ -20,10 +20,14 @@
 
 	function addEventListenerForSubmitAction() {
 		const translationBox = document.getElementById('current-translation-segment');
-		const enteredText = document.getElementsByTagName('textarea');
 		translationBox.addEventListener('submit', (e) => {
 			e.preventDefault();
-			vscode.postMessage({ type: 'update', value: enteredText[0].value });
+			const currentTranslationIndex = /** @type {HTMLElement} */ (document.querySelector('#editor-translation-index'));
+			currentTranslationIndex.innerText = JSON.stringify(parseInt(currentTranslationIndex.innerText) + 1);
+			const translatedContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translated'));
+			const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
+			const enteredText = document.getElementsByTagName('textarea');
+			vscode.postMessage({ type: 'update', translated: translatedContainer.innerText, translation: enteredText[0].value, remaining: remainingContainer.innerText });
 		});
 	}
 
@@ -63,10 +67,12 @@
 
 	function processText(/** @type {string} */ text) {
 		const segments = text.split('\n');
+		const currentTranslationIndex = /** @type {HTMLElement} */ (document.querySelector('#editor-translation-index'));
+		const currentTranslationIndexCounter = parseInt(currentTranslationIndex.innerText);
 		const translationParts = {
-			translated: [].join('\n'),
-			translation: segments[0],
-			remaining: segments.slice(1, segments.length).join('\n')
+			translated: segments.slice(0, currentTranslationIndexCounter).join('\n'),
+			translation: segments[currentTranslationIndexCounter],
+			remaining: segments.slice(currentTranslationIndexCounter + 1, segments.length).join('\n')
 		};
 		return translationParts;
 	}
