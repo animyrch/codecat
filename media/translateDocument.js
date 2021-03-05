@@ -61,7 +61,7 @@
 		const translationContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translation'));
 		const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
 		translatedContainer.innerText = translationParts.translated;
-		translationContainer.innerHTML = `<textarea id="editor-body-translation-area">${translationParts.translation}</textarea>`;
+		translationContainer.innerHTML = translationParts.translation ? `<textarea id="editor-body-translation-area">${translationParts.translation}</textarea><br><input type="submit" value="Translate">` : '';
 		remainingContainer.innerText = translationParts.remaining;
 	}
 
@@ -69,9 +69,10 @@
 		const segments = text.split('\n');
 		const currentTranslationIndex = /** @type {HTMLElement} */ (document.querySelector('#editor-translation-index'));
 		const currentTranslationIndexCounter = parseInt(currentTranslationIndex.innerText);
+		const translationFinished = currentTranslationIndexCounter === segments.length;
 		const translationParts = {
 			translated: segments.slice(0, currentTranslationIndexCounter).join('\n'),
-			translation: segments[currentTranslationIndexCounter],
+			translation: translationFinished ? null : segments[currentTranslationIndexCounter],
 			remaining: segments.slice(currentTranslationIndexCounter + 1, segments.length).join('\n')
 		};
 		return translationParts;

@@ -91,6 +91,9 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 			path.join(this.context.extensionPath, 'media', 'translateDocument.js')
 		));
 
+		const styleMainUri = webview.asWebviewUri(vscode.Uri.file(
+			path.join(this.context.extensionPath, 'media', 'main.css')
+		));
 		// Use a nonce to whitelist which scripts can be run
 		const nonce = getNonce();
 
@@ -107,6 +110,7 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource}; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+				<link href="${styleMainUri}" rel="stylesheet" />
 
 				<title>Translate Document</title>
 			</head>
@@ -117,7 +121,6 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 
 					<form id="current-translation-segment">
 						<div id="editor-body-translation"></div>
-						<input type="submit" value="Translate">
 					</form>
 
 					<div id="editor-body-remaining"></div>
