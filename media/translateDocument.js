@@ -27,7 +27,12 @@
 			const translatedContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translated'));
 			const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
 			const enteredText = document.getElementsByTagName('textarea');
-			vscode.postMessage({ type: 'update', translated: translatedContainer.innerText, translation: enteredText[0].value, remaining: remainingContainer.innerText });
+			vscode.postMessage({
+				type: 'update',
+				translated: translatedContainer.innerText,
+				translation: enteredText[0].value,
+				remaining: remainingContainer.innerText
+			});
 		});
 	}
 
@@ -61,7 +66,9 @@
 		const translationContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translation'));
 		const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
 		translatedContainer.innerText = translationParts.translated;
-		translationContainer.innerHTML = translationParts.translation ? `<textarea id="editor-body-translation-area">${translationParts.translation}</textarea><br><input type="submit" value="Translate">` : '';
+		translationContainer.innerHTML = translationParts.translation === null ?
+			'' :
+			`<textarea id="editor-body-translation-area">${translationParts.translation}</textarea><br><input type="submit" value="Translate">`;
 		remainingContainer.innerText = translationParts.remaining;
 	}
 
