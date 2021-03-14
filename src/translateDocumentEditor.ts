@@ -44,13 +44,6 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 		};
 		webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
 
-		function updateWebview() {
-			webviewPanel.webview.postMessage({
-				type: 'update',
-				text: document.getText(),
-			});
-		}
-
 		// Hook up event handlers so that we can synchronize the webview with the text document.
 		//
 		// The text document acts as our model, so we have to sync change in the document to our
@@ -61,7 +54,7 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 
 		const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
 			if (e.document.uri.toString() === document.uri.toString()) {
-				updateWebview();
+				this.updateWebview(webviewPanel, document);
 			}
 		});
 
@@ -73,13 +66,12 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 		webviewPanel.webview.onDidReceiveMessage(e => {
 			switch (e.type) {
 				case 'update':
-					const newText = (e.translated ? e.translated + '\n' : '') + e.translation +  '\n' + e.remaining;
-					this.updateTextDocument(document, newText);
+					this.updateTextDocument(document, e.newText);
 					return;
 			}
 		});
 
-		updateWebview();
+		this.updateWebview(webviewPanel, document);
 	}
 
 	/**
@@ -132,6 +124,12 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 			</html>`;
 	}
 
+	private updateWebview(webviewPanel: vscode.WebviewPanel, document: vscode.TextDocument) {
+		webviewPanel.webview.postMessage({
+			type: 'update',
+			text: document.getText(),
+		});
+	}
 	/**
 	 * Write out the translation to a given document.
 	 */

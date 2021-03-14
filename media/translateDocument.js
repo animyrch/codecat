@@ -27,11 +27,12 @@
 			const translatedContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translated'));
 			const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
 			const enteredText = document.getElementsByTagName('textarea');
+			const newText = (translatedContainer.innerText ? translatedContainer.innerText + '\n' : '') +
+				enteredText[0].value +  (remainingContainer.innerText ? '\n' : '') +
+				remainingContainer.innerText;
 			vscode.postMessage({
 				type: 'update',
-				translated: translatedContainer.innerText,
-				translation: enteredText[0].value,
-				remaining: remainingContainer.innerText
+				newText
 			});
 		});
 	}
