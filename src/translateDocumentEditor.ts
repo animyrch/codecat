@@ -109,12 +109,15 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 			<body>
 				<div id="editor-translation-index">0</div>
 				<div class="editor-body">
+					<div class="translation-section-title">Translated</div>
 					<div id="editor-body-translated"></div>
 
+					<div class="translation-section-title">Current Translation</div>
 					<form id="current-translation-segment">
 						<div id="editor-body-translation"></div>
 					</form>
 
+					<div class="translation-section-title">Remaining text</div>
 					<div id="editor-body-remaining"></div>
 				</div>
 				
