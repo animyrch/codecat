@@ -69,7 +69,7 @@
 		translatedContainer.innerText = translationParts.translated;
 		translationContainer.innerHTML = translationParts.translation === null ?
 			'' :
-			`<textarea id="editor-body-translation-area">${translationParts.translation}</textarea><br><input type="submit" value="Translate">`;
+			`<textarea id="editor-body-translation-area">${translationParts.translation}</textarea><br><input class="button" type="submit" value="Go To Next Segment">`;
 		remainingContainer.innerText = translationParts.remaining;
 	}
 
