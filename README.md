@@ -2,6 +2,8 @@
 
 Computer-assisted-translation (cat tool) extension for Visual Studio Code to translate your documentation, extracted strings and code with the power of automated translation as well as manual translation with translation memory and vocabulary management.
 
+![Usage Demo](media/codecat.gif)
+
 ## Features
 
 Save any file that you want to translate as an .xcat file and open it with this extension installed. Extension will take over and present a custom editor where you file is divided into translatable line. 
