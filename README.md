@@ -10,8 +10,19 @@ As you translate line by line, the document will be updated with the translation
 
 At the end of the translation, you can change back the extension of the file to its original state.
 
-### 1.0.0
+## Development
 
-Initial release
+### Start Contributing
 
-**Enjoy!**
+At the root of the project, enter 
+
+`yarn install`
+### Creating a local extension package
+
+At the root of the project, enter
+
+`vsce package`
+
+This will create a `vsix` file automatically named according to the package.json version.
+
+Then, go to extensions of VS Code and select 'Install from VSIX' from the '...' context menu.

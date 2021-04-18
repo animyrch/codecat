@@ -66,11 +66,11 @@
 		const translatedContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translated'));
 		const translationContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translation'));
 		const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
-		translatedContainer.innerText = translationParts.translated;
+		translatedContainer.innerHTML = '<pre>'+translationParts.translated+'</pre>';
 		translationContainer.innerHTML = translationParts.translation === null ?
 			'' :
 			`<textarea id="editor-body-translation-area">${translationParts.translation}</textarea><br><input class="button" type="submit" value="Go To Next Segment">`;
-		remainingContainer.innerText = translationParts.remaining;
+		remainingContainer.innerHTML = '<pre>'+translationParts.remaining+'</pre>';
 	}
 
 	function processText(/** @type {string} */ text) {
