@@ -19,6 +19,16 @@
 	background:-moz-linear-gradient(#F9EFAF, #F7E98D);
 	background:-webkit-linear-gradient(#F9EFAF, #F7E98D);
 }
+.disabled-editor-area{
+	width:100%;
+	box-sizing:border-box;
+	display:block;
+	max-width:100%;
+	line-height:1.5;
+	padding:15px 15px 30px;
+	border-radius:3px;
+	background:#c1e1ee;
+}
 .translation-section-title{
 	padding: 1.5rem;
 	font-size: 1.4rem;

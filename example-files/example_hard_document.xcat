@@ -1,0 +1,34 @@
+
+---
+badges:
+  - breaking
+---
+
+# Attribute Coercion Behavior <MigrationBadges :badges="$frontmatter.badges" />
+
+In 2.x, we had the following strategies for coercing `v-bind` values:
+
+- For some attribute/element pairs, Vue is always using the corresponding IDL attribute (property): [like `value` of `<input>`, `<select>`, `<progress>`, etc](https://github.com/vuejs/vue/blob/bad3c326a3f8b8e0d3bcf07917dc0adf97c32351/src/platforms/web/util/attrs.js#L11-L18).
+
+| Binding expression  | `foo` <sup>normal</sup> | `draggable` <sup>enumerated</sup> |
+| ------------------- | ----------------------- | --------------------------------- |
+| `:attr="null"`      | /                       | `draggable="false"`               |
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th><code>v-bind</code> value <sup>2.x</sup></th>
+      <th><code>v-bind</code> value <sup>3.x</sup></th>
+      <th>HTML output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3">2.x “Enumerated attrs”<br><small>i.e. <code>contenteditable</code>, <code>draggable</code> and <code>spellcheck</code>.</small></td>
+      <td><code>undefined</code>, <code>false</code></td>
+      <td><code>undefined</code>, <code>null</code></td>
+      <td><i>removed</i></td>
+    </tr>
+  </tbody>
+</table>

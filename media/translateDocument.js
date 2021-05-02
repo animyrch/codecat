@@ -23,13 +23,14 @@
 		translationBox.addEventListener('submit', (e) => {
 			e.preventDefault();
 			const currentTranslationIndex = /** @type {HTMLElement} */ (document.querySelector('#editor-translation-index'));
-			currentTranslationIndex.innerText = JSON.stringify(parseInt(currentTranslationIndex.innerText) + 1);
-			const translatedContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translated'));
-			const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
+			
 			const enteredText = document.getElementsByTagName('textarea');
-			const newText = (translatedContainer.innerText ? translatedContainer.innerText + '\n' : '') +
-				enteredText[0].value +  (remainingContainer.innerText ? '\n' : '') +
-				remainingContainer.innerText;
+			const newText =
+				enteredText[0].value +
+				(currentTranslationIndex.innerText === '0' ? '' : '\n') +
+				enteredText[1].value +
+				enteredText[2].value;
+			currentTranslationIndex.innerText = JSON.stringify(parseInt(currentTranslationIndex.innerText) + 1);
 			vscode.postMessage({
 				type: 'update',
 				newText
@@ -63,26 +64,28 @@
 	 */
 	function updateContent(/** @type {string} */ text) {
 		const translationParts = processText(text);
-		const translatedContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translated'));
-		const translationContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-translation'));
-		const remainingContainer = /** @type {HTMLElement} */ (document.querySelector('#editor-body-remaining'));
-		translatedContainer.innerHTML = '<pre>'+translationParts.translated+'</pre>';
-		translationContainer.innerHTML = translationParts.translation === null ?
-			'' :
-			`<textarea id="editor-body-translation-area">${translationParts.translation}</textarea><br><input class="button" type="submit" value="Go To Next Segment">`;
-		remainingContainer.innerHTML = '<pre>'+translationParts.remaining+'</pre>';
+		const enteredText = document.getElementsByTagName('textarea');
+		enteredText[0].value = translationParts.translated;
+		enteredText[1].value = translationParts.translation === null ? '' : translationParts.translation;
+		enteredText[2].value = translationParts.remaining;
 	}
 
 	function processText(/** @type {string} */ text) {
 		const segments = text.split('\n');
 		const currentTranslationIndex = /** @type {HTMLElement} */ (document.querySelector('#editor-translation-index'));
 		const currentTranslationIndexCounter = parseInt(currentTranslationIndex.innerText);
-		const translationFinished = currentTranslationIndexCounter === segments.length;
+		const translatedParts = segments.slice(0, currentTranslationIndexCounter);
+		const partsToBeTranslated = segments.slice(currentTranslationIndexCounter + 1, segments.length);
 		const translationParts = {
-			translated: segments.slice(0, currentTranslationIndexCounter).join('\n'),
-			translation: translationFinished ? null : segments[currentTranslationIndexCounter],
-			remaining: segments.slice(currentTranslationIndexCounter + 1, segments.length).join('\n')
+			translated: translatedParts.join('\n'),
+			translation: !segments[currentTranslationIndexCounter] ? null : segments[currentTranslationIndexCounter],
+			remaining: partsToBeTranslated.length === 0 ? '' : '\n' + partsToBeTranslated.join('\n')
 		};
+		
+		const enteredText = document.getElementsByTagName('textarea');
+		enteredText[0].rows = translatedParts.length + 3;
+		enteredText[2].rows = partsToBeTranslated.length + 4;
+
 		return translationParts;
 	}
 }());
