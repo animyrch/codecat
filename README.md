@@ -6,7 +6,7 @@ Computer-assisted-translation (cat tool) extension for Visual Studio Code to tra
 
 ## Features
 
-Save any file that you want to translate as an .xcat file and open it with this extension installed. Extension will take over and present a custom editor where you file is divided into translatable line. 
+Save any file that you want to translate as an .xcat file and open it with this extension installed. Extension will take over and present a custom editor where you file is divided into translatable lines. 
 
 As you translate line by line, the document will be updated with the translations.
 
