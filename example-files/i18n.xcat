@@ -1,11 +1,11 @@
 {
-    "Name": "Prénom",
-    "Company": "Compagnie",
-    "Email Address":"Adresse e-mail",
-    "Mobile No.": "Numéro de portable",
-    "Application Form":"Formulaire de demande",
-    "Telephone No.":"Numéro de téléphone",
-    "Gender":"Le genre",
-    "Male": "Mâle",
-    "Female":"Femelle"
+    "name": "Name",
+    "company": "Company",
+    "email":"Email Address",
+    "telephone-mobile": "Mobile No.",
+    "application-form":"Application Form",
+    "telephone-land":"Telephone No.",
+    "gender":"Gender",
+    "male": "Male",
+    "female":"Female"
 }
