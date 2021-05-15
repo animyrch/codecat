@@ -1,7 +1,7 @@
 #editor-translation-index{
     opacity: 0;
 }
-#editor-body-translation-area{
+#editor-body-translation-area-target{
 	width:100%;
 	box-sizing:border-box;
 	display:block;
@@ -19,7 +19,7 @@
 	background:-moz-linear-gradient(#F9EFAF, #F7E98D);
 	background:-webkit-linear-gradient(#F9EFAF, #F7E98D);
 }
-.disabled-editor-area{
+.disabled-editor-area, .hidden-editor-area{
 	width:100%;
 	box-sizing:border-box;
 	display:block;
@@ -28,6 +28,12 @@
 	padding:15px 15px 30px;
 	border-radius:3px;
 	background:#c1e1ee;
+}
+.hidden-editor-area{
+	visibility:hidden;
+}
+.editor-body-translation{
+	margin-bottom: 2rem;
 }
 .translation-section-title{
 	padding: 1.5rem;

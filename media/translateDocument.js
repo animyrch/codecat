@@ -28,8 +28,8 @@
 			const newText =
 				enteredText[0].value +
 				(currentTranslationIndex.innerText === '0' ? '' : '\n') +
-				enteredText[1].value +
-				enteredText[2].value;
+				enteredText[2].value +
+				enteredText[3].value;
 			currentTranslationIndex.innerText = JSON.stringify(parseInt(currentTranslationIndex.innerText) + 1);
 			vscode.postMessage({
 				type: 'update',
@@ -65,9 +65,11 @@
 	function updateContent(/** @type {string} */ text) {
 		const translationParts = processText(text);
 		const enteredText = document.getElementsByTagName('textarea');
+		const currentSegment= translationParts.translation === null ? '' : translationParts.translation;
 		enteredText[0].value = translationParts.translated;
-		enteredText[1].value = translationParts.translation === null ? '' : translationParts.translation;
-		enteredText[2].value = translationParts.remaining;
+		enteredText[1].value = currentSegment;
+		enteredText[2].value = currentSegment;
+		enteredText[3].value = translationParts.remaining;
 	}
 
 	function processText(/** @type {string} */ text) {
@@ -84,7 +86,7 @@
 		
 		const enteredText = document.getElementsByTagName('textarea');
 		enteredText[0].rows = translatedParts.length + 3;
-		enteredText[2].rows = partsToBeTranslated.length + 4;
+		enteredText[3].rows = partsToBeTranslated.length + 4;
 
 		return translationParts;
 	}

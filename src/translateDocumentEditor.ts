@@ -109,23 +109,23 @@ export class TranslateDocumentEditorProvider implements vscode.CustomTextEditorP
 			<body>
 				<div id="editor-translation-index">0</div>
 				<div class="editor-body">
-					<div class="translation-section-title">Translated</div>
 					<div id="editor-body-translated">
-						<textarea class="disabled-editor-area" disabled></textarea>
+						<textarea class="hidden-editor-area" disabled></textarea>
 					</div>
 
-					<div class="translation-section-title">Current Translation</div>
 					<form id="current-translation-segment">
-						<div id="editor-body-translation">
-							<textarea id="editor-body-translation-area"></textarea>
+						<div class="editor-body-translation">
+							<textarea id="editor-body-translation-area-source" class="disabled-editor-area" disabled></textarea>
+						</div>
+						<div class="editor-body-translation">
+							<textarea id="editor-body-translation-area-target"></textarea>
 							<br>
 							<input class="button" type="submit" value="Go To Next Segment">
 						</div>
 					</form>
 
-					<div class="translation-section-title">Remaining text</div>
 					<div id="editor-body-remaining">
-						<textarea rows="20" class="disabled-editor-area" disabled></textarea>
+						<textarea rows="20" class="hidden-editor-area" disabled></textarea>
 					</div>
 				</div>
 				
